@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "1037522055491",
-    "project_id": "univallemovil-f834a",
-    "storage_bucket": "univallemovil-f834a.appspot.com"
+    "project_number": "230018100548",
+    "project_id": "lost-pet-1c0dc",
+    "storage_bucket": "lost-pet-1c0dc.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1037522055491:android:61d6905781dbfd68753ff6",
+        "mobilesdk_app_id": "1:230018100548:android:25a35658bb0aba2913fb11",
         "android_client_info": {
           "package_name": "com.firebase.flutter_movil.firebase_crud"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDMvS4xdhwCam-3rMxFPwETC9lxRooMCi8"
+          "current_key": "AIzaSyBzXRYXkruz8Hw86AtNMPcLEpbpzWL33sg"
         }
       ],
       "services": {

@@ -1,4 +1,4 @@
-import 'package:firebase_crud/login_screen.dart';
+import 'package:firebase_crud/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
