@@ -82,7 +82,7 @@ class _AnimalRegistrationScreenState extends State<AnimalRegistrationScreen> {
                 child: Text('Registrar'),
                 onPressed: _submitForm,
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.blueAccent, // Color del botón
+                  primary: Colors.orange, // Color del botón
                   padding:
                       EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
                   shape: RoundedRectangleBorder(

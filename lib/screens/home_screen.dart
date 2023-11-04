@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../widgets/LostAnimalcard.dart';
-import 'AnimalRegistrationScreen.dart'; // Importa la pantalla de registro
+import 'AnimalRegistrationScreen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -15,7 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget> _widgetOptions = <Widget>[
     LostAnimalsSection(),
-    //FoundAnimalsSection(),
+    FoundAnimalsSection(),
   ];
 
   @override
@@ -43,11 +43,11 @@ class _HomeScreenState extends State<HomeScreen> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.pets),
-            label: 'Perros perdidos',
+            label: 'Animales perdidos',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.check_circle),
-            label: 'Perros encontrados',
+            label: 'Animales encontrados',
           ),
         ],
         currentIndex: _selectedIndex,
@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class LostAnimalsSection extends StatelessWidget {
-  const LostAnimalsSection({super.key});
+  const LostAnimalsSection({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +93,52 @@ class LostAnimalsSection extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                "Animales perdidos",
+                "ANIMALES PERDIDOS",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+            ),
+            ...animalCards,
+          ],
+        );
+      },
+    );
+  }
+}
+
+class FoundAnimalsSection extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('animals')
+          .where('status', isEqualTo: 'Encontrado')
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return const CircularProgressIndicator();
+
+        List<LostAnimalCard> animalCards = [];
+        snapshot.data!.docs.forEach((doc) {
+          animalCards.add(LostAnimalCard(
+            imageUrl: doc['imageURL'],
+            animalType: doc['animaltype'],
+            additionalInfo: doc['informacion'],
+            ubicacionDePerdida: doc['infoubicacion'],
+            recompensa: doc['recompensa'],
+            numeroDeReferencia: doc['numref'],
+            statusa: doc['status'],
+          ));
+        });
+
+        return ListView(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                "ANIMALES ENCONTRADOS",
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
