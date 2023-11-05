@@ -21,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
           gradient: LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
-            colors: [Colors.blue[100]!, Colors.blue[400]!],
+            colors: [Colors.orange[100]!, Colors.orange[400]!],
           ),
         ),
         child: Padding(
@@ -44,14 +44,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
-                      prefixIcon: Icon(Icons.email, color: Colors.blue[600]),
+                      prefixIcon: Icon(Icons.email, color: Colors.orange[600]),
                       labelText: 'Email',
-                      labelStyle: TextStyle(color: Colors.blue[600]),
+                      labelStyle: TextStyle(color: Colors.orange[600]),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue[600]!),
+                        borderSide: BorderSide(color: Colors.orange[600]!),
                       ),
                     ),
                   ),
@@ -62,14 +62,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
-                      prefixIcon: Icon(Icons.lock, color: Colors.blue[600]),
+                      prefixIcon: Icon(Icons.lock, color: Colors.orange[600]),
                       labelText: 'Contraseña',
-                      labelStyle: TextStyle(color: Colors.blue[600]),
+                      labelStyle: TextStyle(color: Colors.orange[600]),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue[600]!),
+                        borderSide: BorderSide(color: Colors.orange[600]!),
                       ),
                     ),
                   ),
@@ -83,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     child: Text('Iniciar sesión'),
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.blue[600],
+                      primary: Colors.orange[600],
                       padding: EdgeInsets.symmetric(vertical: 16.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12.0),

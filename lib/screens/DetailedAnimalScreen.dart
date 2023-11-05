@@ -3,7 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DetailedAnimalScreen extends StatelessWidget {
-  final String documentId; // Añadido para identificar el documento a eliminar.
+
   final String imageUrl;
   final String animalType;
   final String additionalInfo;
@@ -12,9 +12,9 @@ class DetailedAnimalScreen extends StatelessWidget {
   final String numeroDeReferencia;
   final String statusa;
 
-  // Constructor de la clase
+
   DetailedAnimalScreen({
-    required this.documentId, // Añadido para el manejo del documento.
+  
     required this.imageUrl,
     required this.animalType,
     required this.additionalInfo,
@@ -33,51 +33,56 @@ class DetailedAnimalScreen extends StatelessWidget {
           children: <Widget>[
             Image.network(imageUrl),
             Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
                     'Tipo de animal: $animalType',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
                     'Información adicional: $additionalInfo',
-                    style: TextStyle(fontSize: 18),
+                    style: const TextStyle(fontSize: 18),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
                     'Ubicación de la pérdida: $ubicacionDePerdida',
-                    style: TextStyle(fontSize: 18),
+                    style: const TextStyle(fontSize: 18),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
                     'Recompensa: $recompensa',
-                    style: TextStyle(fontSize: 18, color: Colors.green),
+                    style: const TextStyle(fontSize: 18, color: Colors.green),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
                     'Número de referencia: $numeroDeReferencia',
-                    style: TextStyle(fontSize: 18),
+                    style: const TextStyle(fontSize: 18),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
                     'Estado: $statusa',
-                    style: TextStyle(fontSize: 18),
+                    style: const TextStyle(fontSize: 18),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       ElevatedButton(
-                        onPressed: () => _deleteAnimal(context, documentId),
-                        child: Text('Eliminar'),
+                        onPressed: () => _deleteAnimalByReferenceNumber(
+                            context, numeroDeReferencia),
+                        child: const Text('Eliminar'),
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.red,
+                        ),
                       ),
                       ElevatedButton(
                         onPressed: () =>
                             _contactOwner(context, numeroDeReferencia),
-                        child: Text('Contactar'),
+                        child: const Text('Contactar'),
                       ),
                     ],
                   ),
@@ -97,7 +102,7 @@ class DetailedAnimalScreen extends StatelessWidget {
 
     if (!await launchUrl(_url, mode: LaunchMode.externalApplication)) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("No se pudo abrir WhatsApp"),
         ),
       );
@@ -105,25 +110,28 @@ class DetailedAnimalScreen extends StatelessWidget {
   }
 
   // Asumiendo que tienes una función para eliminar el documento en Firestore.
-  void _deleteAnimal(BuildContext context, String documentId) {
-    FirebaseFirestore.instance
-        .collection('animals')
-        .doc(documentId)
-        .delete()
-        .then((_) {
+  Future<void> _deleteAnimalByReferenceNumber(
+      BuildContext context, String referenceNumber) async {
+    try {
+
+      var collection = FirebaseFirestore.instance.collection('animals');
+      var querySnapshot =
+          await collection.where('numref', isEqualTo: referenceNumber).get();
+      for (var doc in querySnapshot.docs) {
+        await doc.reference.delete();
+      }
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("Animal eliminado correctamente."),
         ),
       );
-      Navigator.of(context)
-          .pop(); // Regresar a la pantalla anterior tras eliminar.
-    }).catchError((error) {
+      Navigator.of(context).pop(); // Volver a la pantalla anterior
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Error al eliminar el animal: $error"),
+          content: Text("Error al eliminar el animal: $e"),
         ),
       );
-    });
+    }
   }
 }

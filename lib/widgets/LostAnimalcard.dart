@@ -27,8 +27,8 @@ class LostAnimalCard extends StatelessWidget {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => DetailedAnimalScreen(
-              documentId:
-                  'tu_document_id', // Asegúrate de pasar el documentId correcto aquí
+              //documentId:
+                //  'tu_document_id', // Asegúrate de pasar el documentId correcto aquí
               imageUrl: imageUrl,
               animalType: animalType,
               additionalInfo: additionalInfo,
