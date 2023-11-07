@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../widgets/LostAnimalcard.dart';
 import 'AnimalRegistrationScreen.dart';
+import '../blocs/sign_in_bloc/sign_in_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -21,7 +23,13 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Mascotas')),
+      appBar: AppBar(title: const Text('LOST PETS!'), actions: [
+        IconButton(
+            onPressed: () {
+              context.read<SignInBloc>().add(const SignOutRequired());
+            },
+            icon: Icon(Icons.login))
+      ]),
       body: Column(
         children: <Widget>[
           ElevatedButton(

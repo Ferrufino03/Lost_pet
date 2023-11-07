@@ -35,7 +35,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   Image.network(
                     imageUrl,
                     height: 250,
-                  
                   ),
                   SizedBox(height: 60.0),
                   TextFormField(
