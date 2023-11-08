@@ -1,10 +1,19 @@
+import 'package:firebase_crud/screens/AnimalRegistration/model/Animal.dart';
+
 abstract class AnimalRegistrationState {}
 
 class AnimalRegistrationInitial extends AnimalRegistrationState {}
 
 class AnimalRegistrationUpdate extends AnimalRegistrationState {
-  String? url;
-  AnimalRegistrationUpdate({this.url});
+  Animal? animal;
+  AnimalRegistrationUpdate({this.animal});
 }
 
-class ResetState extends AnimalRegistrationState{}
+class ResetState extends AnimalRegistrationState {
+    Animal? animal;
+  ResetState({this.animal});
+}
+
+class RegistrationSuccess extends AnimalRegistrationState {}
+
+class RegistrationError extends AnimalRegistrationState {}

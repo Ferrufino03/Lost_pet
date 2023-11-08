@@ -1,8 +1,19 @@
+import 'package:firebase_crud/screens/AnimalRegistration/model/Animal.dart';
+
 abstract class AnimalRegistrationEvent {}
 
-class UpLoadImageEvent extends AnimalRegistrationEvent {
+class GetImageEvent extends AnimalRegistrationEvent {
   String url;
-  UpLoadImageEvent({required this.url});
+  GetImageEvent({required this.url});
 }
 
-class ResetStateEvent extends AnimalRegistrationEvent{}
+class InputEvent extends AnimalRegistrationEvent {
+  Animal? animal;
+  InputEvent({
+    this.animal,
+  });
+}
+
+class SubmitEvent extends AnimalRegistrationEvent {}
+
+class ResetStateEvent extends AnimalRegistrationEvent {}
