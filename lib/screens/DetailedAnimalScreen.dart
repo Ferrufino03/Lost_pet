@@ -3,7 +3,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DetailedAnimalScreen extends StatelessWidget {
-
   final String imageUrl;
   final String animalType;
   final String additionalInfo;
@@ -12,9 +11,7 @@ class DetailedAnimalScreen extends StatelessWidget {
   final String numeroDeReferencia;
   final String statusa;
 
-
   DetailedAnimalScreen({
-  
     required this.imageUrl,
     required this.animalType,
     required this.additionalInfo,
@@ -81,6 +78,14 @@ class DetailedAnimalScreen extends StatelessWidget {
                       ),
                       ElevatedButton(
                         onPressed: () =>
+                            _markAnimalAsFound(context, numeroDeReferencia),
+                        child: const Text('Encontrado'),
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.green,
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () =>
                             _contactOwner(context, numeroDeReferencia),
                         child: const Text('Contactar'),
                       ),
@@ -109,27 +114,53 @@ class DetailedAnimalScreen extends StatelessWidget {
     }
   }
 
-  // Asumiendo que tienes una función para eliminar el documento en Firestore.
   Future<void> _deleteAnimalByReferenceNumber(
       BuildContext context, String referenceNumber) async {
     try {
-
       var collection = FirebaseFirestore.instance.collection('animals');
       var querySnapshot =
           await collection.where('numref', isEqualTo: referenceNumber).get();
+
       for (var doc in querySnapshot.docs) {
         await doc.reference.delete();
       }
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Animal eliminado correctamente."),
         ),
       );
-      Navigator.of(context).pop(); // Volver a la pantalla anterior
+
+      Navigator.of(context).pop();
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("Error al eliminar el animal: $e"),
+        ),
+      );
+    }
+  }
+
+  Future<void> _markAnimalAsFound(
+      BuildContext context, String referenceNumber) async {
+    try {
+      var collection = FirebaseFirestore.instance.collection('animals');
+      var querySnapshot =
+          await collection.where('numref', isEqualTo: referenceNumber).get();
+
+      for (var doc in querySnapshot.docs) {
+        await doc.reference.update({'status': 'Encontrado'});
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Animal marcado como encontrado correctamente."),
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Error al marcar el animal como encontrado: $e"),
         ),
       );
     }
