@@ -1,7 +1,7 @@
+import 'package:firebase_crud/screens/AnimalRegistration/ui/AnimalRegistrationScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../widgets/LostAnimalCard.dart';
-import 'AnimalRegistrationScreen.dart';
 import '../blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'user_profile_screen.dart';

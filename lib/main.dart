@@ -1,6 +1,7 @@
 //import 'package:firebase_crud/screens/login_screen.dart';
 import 'package:firebase_crud/app.dart';
 import 'package:firebase_crud/firebase_options.dart';
+import 'package:firebase_crud/screens/AnimalRegistration/bloc/animal_registration_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,18 +15,12 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   Bloc.observer = SimpleBlocObserver();
-  runApp(MyApp(FirebaseUserRepo()));
+  runApp(MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => AnimalRegistrationBloc(),
+          )
+        ],
+        child:MyApp(FirebaseUserRepo())));
 }
-
-/*class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Firebase App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: LoginScreen(),
-    );
-  }
-}*/
+//MyApp(FirebaseUserRepo())
