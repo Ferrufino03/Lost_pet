@@ -10,7 +10,7 @@ class AnimalRegistrationUpdate extends AnimalRegistrationState {
 }
 
 class ResetState extends AnimalRegistrationState {
-    Animal? animal;
+  Animal? animal;
   ResetState({this.animal});
 }
 

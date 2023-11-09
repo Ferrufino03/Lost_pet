@@ -12,7 +12,8 @@ class MyAppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Firebase Auth',
+        debugShowCheckedModeBanner: false,
+        title: 'LOST PETS',
         theme: ThemeData(
             colorScheme: const ColorScheme.light(
           background: Colors.white,
