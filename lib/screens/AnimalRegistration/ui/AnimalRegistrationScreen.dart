@@ -258,13 +258,14 @@ class _AnimalRegistrationScreenState extends State<AnimalRegistrationScreen> {
   }
 
   void _submitForm() async {
-    if (_formKey.currentState!.validate() && _imageUrl.isNotEmpty) {
+    final animal = BlocProvider.of<AnimalRegistrationBloc>(context).animal;
+    if (_formKey.currentState!.validate() && animal.animaltype.isNotEmpty && animal.imageURL.isNotEmpty) {
       //_formKey.currentState!.save();
       BlocProvider.of<AnimalRegistrationBloc>(context).add(SubmitEvent());
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Suba una imagen por favor."),
+        SnackBar(
+          content: Text(animal.animaltype.isEmpty?"Indique el tipo de animal":"Suba una imagen por favor."),
         ),
       );
     }

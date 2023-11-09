@@ -17,7 +17,6 @@ class AnimalRegistrationBloc
   void onUpLoadImage(
       GetImageEvent event, Emitter<AnimalRegistrationState> emit) async {
     animal.imageURL = event.url;
-    animal.animaltype= animal.animaltype.isEmpty?"Seleccione el tipo de animal":animal.animaltype;
     emit(AnimalRegistrationUpdate(animal: animal));
   }
 
@@ -25,7 +24,6 @@ class AnimalRegistrationBloc
       ResetStateEvent event, Emitter<AnimalRegistrationState> emit) async {
         // ignore: unnecessary_new
         animal=new Animal();
-        animal.animaltype= "Seleccione el tipo de animal";
     emit(ResetState(animal: animal));
   }
 
@@ -37,7 +35,6 @@ class AnimalRegistrationBloc
     animal.infoubicacion = event.animal!.infoubicacion;
     animal.recompensa = event.animal!.recompensa;
     animal.numref = event.animal!.numref;
-    print(event.animal!.animaltype);
     emit(AnimalRegistrationUpdate(animal: animal));
   }
 
