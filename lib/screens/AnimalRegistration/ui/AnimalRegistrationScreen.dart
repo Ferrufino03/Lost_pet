@@ -17,7 +17,10 @@ class AnimalRegistrationScreen extends StatefulWidget {
 class _AnimalRegistrationScreenState extends State<AnimalRegistrationScreen> {
   final _formKey = GlobalKey<FormState>();
   String _imageUrl = "";
-  String _animalType = "Seleccione el tipo de animal";
+
+  static String _option = "";
+
+  final TextEditingController _animalType = TextEditingController();
   final TextEditingController _additionalInfo = TextEditingController();
   final TextEditingController _ubicacionDePerdida = TextEditingController();
   final TextEditingController _recompensa = TextEditingController();
@@ -25,7 +28,9 @@ class _AnimalRegistrationScreenState extends State<AnimalRegistrationScreen> {
 
   void handleInputsState({required Animal animal}) {
     _imageUrl = animal.imageURL;
-    _animalType = animal.animaltype;
+    _option.isEmpty
+        ? _animalType.text = animal.animaltype
+        : _option = animal.animaltype;
     _additionalInfo.text = animal.informacion;
     _ubicacionDePerdida.text = animal.infoubicacion;
     _recompensa.text = animal.recompensa;
@@ -83,36 +88,34 @@ class _AnimalRegistrationScreenState extends State<AnimalRegistrationScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            constraints: const BoxConstraints(
-              minHeight: 60,
-              minWidth: 120
-            ),
+            constraints: const BoxConstraints(minHeight: 60, minWidth: 120),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: SizedBox(
-                  child: _imageUrl.isEmpty
-                      ? IconButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const UpLoadImage()));
-                          },
-                          icon: const Icon(
-                            Icons.add_a_photo,
-                            size: 60,
-                          ))
-                      : Image.network(
-                          _imageUrl,
-                          fit: BoxFit.fill,
-                          errorBuilder: (context, error, stackTrace) =>
-                              const Icon(Icons.image_not_supported),
-                        ))),
+                borderRadius: BorderRadius.circular(10),
+                child: SizedBox(
+                    child: _imageUrl.isEmpty
+                        ? IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const UpLoadImage()));
+                            },
+                            icon: const Icon(
+                              Icons.add_a_photo,
+                              size: 60,
+                            ))
+                        : Image.network(
+                            _imageUrl,
+                            fit: BoxFit.fill,
+                            errorBuilder: (context, error, stackTrace) =>
+                                const Icon(Icons.image_not_supported),
+                          ))),
           ),
           const SizedBox(
             height: 20,
           ),
-          animalTypes(),
+          animalsType(),
           const SizedBox(height: 10),
           TextFormField(
             decoration: _decor('Información Adicional'),
@@ -173,31 +176,69 @@ class _AnimalRegistrationScreenState extends State<AnimalRegistrationScreen> {
     return scroll;
   }
 
-  Widget animalTypes() {
-    List<String> animals = [
-      "Seleccione el tipo de animal",
-      "Gato",
-      "Perro",
-      "Pato",
-      "Conejo"
-    ];
+  Widget animalsType() {
+    List<String> tiposDeAnimales = ['Perro', 'Gato', 'Pato', 'Conejo', 'Canario'];
+    Set<String> animals = {"Seleccione el tipo de animal", ...tiposDeAnimales};
     List<DropdownMenuItem<String>> items = animals.map((e) {
-      return DropdownMenuItem<String>(value: e, child: Text(e));
+      return DropdownMenuItem<String>(
+          value: e, child: Text(e, overflow: TextOverflow.ellipsis));
     }).toList();
-    return DropdownButton(
+
+    Widget menu = DropdownButton(
+      isDense: true,
       isExpanded: true,
-      padding: const EdgeInsets.all(5),
       borderRadius: const BorderRadius.all(Radius.circular(10)),
       items: items,
-      value: _animalType,
-      focusColor: Colors.blue[700],
+      value:
+          animals.contains(_option) ? _option : "Seleccione el tipo de animal",
+      padding: const EdgeInsets.symmetric(vertical: 7),
       onChanged: (value) {
         setState(() {
-          _animalType = value ?? "";
-          _handleInput(_animalType, "_animalType");
+          _option = value.toString() == "Seleccione el tipo de animal"
+              ? ""
+              : value.toString();
+          _handleInput(_option, "_animalType");
         });
       },
     );
+    Widget inputType = TextFormField(
+      decoration: _decor('Tipo de animal'),
+      controller: _animalType,
+      onChanged: (value) {
+        setState(() {
+          _handleInput(value, "_animalType");
+        });
+      },
+      keyboardType: TextInputType.text,
+    );
+    Widget wrapper = Row(
+      children: [
+        _animalType.text.isEmpty
+            ? Expanded(
+                child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(
+                          10), // Radio del borde del contenedor
+                      border: Border.all(
+                        color: Colors.black12, // Color del borde
+                        width: 1, // Ancho del borde
+                      ),
+                    ),
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.only(left: 5, right: 15),
+                    child: menu))
+            : const SizedBox(),
+        (_animalType.text.isEmpty && _option.isEmpty)
+            ? const SizedBox(
+                width: 30,
+                child: Text("o",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 20)))
+            : const SizedBox(),
+        _option.isEmpty ? Expanded(child: inputType) : const SizedBox()
+      ],
+    );
+    return wrapper;
   }
 
   void _handleInput(String input, String controller) {

@@ -6,14 +6,8 @@ import 'package:firebase_crud/screens/AnimalRegistration/bloc/animal_registratio
 
 class AnimalRegistrationBloc
     extends Bloc<AnimalRegistrationEvent, AnimalRegistrationState> {
-  Animal animal = Animal(
-    imageURL: "",
-    animaltype: "",
-    informacion: "",
-    infoubicacion: "",
-    recompensa: "",
-    numref: "",
-  );
+  // ignore: unnecessary_new
+  Animal animal = new Animal();
   AnimalRegistrationBloc() : super(AnimalRegistrationInitial()) {
     on<GetImageEvent>(onUpLoadImage);
     on<ResetStateEvent>(onResetState);
@@ -23,18 +17,15 @@ class AnimalRegistrationBloc
   void onUpLoadImage(
       GetImageEvent event, Emitter<AnimalRegistrationState> emit) async {
     animal.imageURL = event.url;
-    animal.animaltype= "Seleccione el tipo de animal";
+    animal.animaltype= animal.animaltype.isEmpty?"Seleccione el tipo de animal":animal.animaltype;
     emit(AnimalRegistrationUpdate(animal: animal));
   }
 
   void onResetState(
       ResetStateEvent event, Emitter<AnimalRegistrationState> emit) async {
-      animal.imageURL = "";
-      animal.animaltype = "Seleccione el tipo de animal";
-      animal.informacion = "";
-      animal.infoubicacion = "";
-      animal.recompensa = "";
-      animal.numref = "";
+        // ignore: unnecessary_new
+        animal=new Animal();
+        animal.animaltype= "Seleccione el tipo de animal";
     emit(ResetState(animal: animal));
   }
 
@@ -46,6 +37,7 @@ class AnimalRegistrationBloc
     animal.infoubicacion = event.animal!.infoubicacion;
     animal.recompensa = event.animal!.recompensa;
     animal.numref = event.animal!.numref;
+    print(event.animal!.animaltype);
     emit(AnimalRegistrationUpdate(animal: animal));
   }
 
@@ -53,7 +45,7 @@ class AnimalRegistrationBloc
       SubmitEvent event, Emitter<AnimalRegistrationState> emit) async {
     await FirebaseFirestore.instance
         .collection('animals')
-        .add(animal.ToMap)
+        .add(animal.toMap)
         .then((DocumentReference documentRef) {
       emit(RegistrationSuccess());
     }).catchError((error) {
