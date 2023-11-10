@@ -16,7 +16,15 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Perfil del Usuario'),
+        leading: IconButton(
+        icon: Icon(Icons.arrow_back, color:Theme.of(context).colorScheme.onSecondary),
+        onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: Text('Perfil del Usuario',
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onSecondary,
+          )
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -53,7 +61,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
                 // Lógica para guardar los datos en la base de datos.
               },
-              child: Text('Guardar Cambios'),
+              child: Text('Guardar Cambios',
+               style: TextStyle(
+                color: Theme.of(context).colorScheme.onSecondary
+               ),),
             ),
           ],
         ),

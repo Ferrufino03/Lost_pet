@@ -45,26 +45,42 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('LOST PETS!'),
+        title:  Text('Lost Pets',
+          style: TextStyle(
+          color: Theme.of(context).colorScheme.onSecondary,
+        ),
+      ),
         actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => UserProfileScreen()),
-              );
-            },
-            icon: const Icon(Icons.account_circle),
-          ),
-          IconButton(
-              onPressed: () {
-                context.read<SignInBloc>().add(const SignOutRequired());
-              },
-              icon: const Icon(Icons.logout))
-        ],
+    IconTheme(
+      data: IconThemeData(
+        color: Theme.of(context).colorScheme.onSecondary
+      ),
+      child: IconButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => UserProfileScreen()),
+          );
+        },
+        icon: const Icon(Icons.account_circle),
+      ),
+    ),
+    IconTheme(
+      data: IconThemeData(
+        color: Theme.of(context).colorScheme.onSecondary
+      ),
+      child: IconButton(
+        onPressed: () {
+          context.read<SignInBloc>().add(const SignOutRequired());
+        },
+        icon: const Icon(Icons.logout),
+      ),
+    ),
+  ],
       ),
       body: Column(
-        children: <Widget>[
+        children: <Widget>[ const
+          SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
               Navigator.push(
@@ -73,7 +89,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     builder: (context) => AnimalRegistrationScreen()),
               );
             },
-            child: const Text('Registrar Animal Perdido'),
+            child:  Text('Registrar Animal Perdido',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSecondary,
+              ),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -116,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: Theme.of(context).colorScheme.primary,
         onTap: (index) {
           setState(() {
             _selectedIndex = index;
@@ -171,13 +191,15 @@ class LostAnimalsSection extends StatelessWidget {
 
         return ListView(
           children: <Widget>[
-            const Padding(
+             Padding(
               padding: EdgeInsets.all(16.0),
               child: Text(
-                "Animales perdidos",
+                "Animales Perdidos",
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.primary,
+                  
                 ),
               ),
             ),
@@ -217,11 +239,11 @@ class FoundAnimalsSection extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                "ANIMALES ENCONTRADOS",
+                "Animales Encontrados",
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
             ),

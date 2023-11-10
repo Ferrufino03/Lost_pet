@@ -44,8 +44,6 @@ class LostAnimalCard extends StatelessWidget {
         elevation: 4.0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0),
-          side:
-              BorderSide(color: Colors.blue[100]!, width: 2.0), // Añadido borde
         ),
         margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
         child: Column(

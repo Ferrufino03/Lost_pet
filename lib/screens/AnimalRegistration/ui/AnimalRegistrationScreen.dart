@@ -60,7 +60,15 @@ class _AnimalRegistrationScreenState extends State<AnimalRegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Registrar Animal Perdido')),
+      appBar: AppBar(
+        leading: IconButton(
+        icon: Icon(Icons.arrow_back, color:Theme.of(context).colorScheme.onSecondary),
+        onPressed: () => Navigator.of(context).pop(),
+        ),
+        title:  Text('Registrar Animal Perdido',
+        style:TextStyle(
+        color: Theme.of(context).colorScheme.onSecondary,
+      ))),
       body: Container(
           padding: const EdgeInsets.all(16.0),
           child: BlocBuilder<AnimalRegistrationBloc, AnimalRegistrationState>(
@@ -161,7 +169,8 @@ class _AnimalRegistrationScreenState extends State<AnimalRegistrationScreen> {
             child: const Text('Registrar'),
             onPressed: _submitForm,
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.orange, // Color del botón
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              foregroundColor: Theme.of(context).colorScheme.onSecondary,
               padding:
                   const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
               shape: RoundedRectangleBorder(
