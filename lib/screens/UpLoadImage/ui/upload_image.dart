@@ -33,7 +33,15 @@ class _UpLoadImage extends State<UpLoadImage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Cargar Imagen")),
+        appBar: AppBar(
+          leading: IconButton(
+        icon: Icon(Icons.arrow_back, color:Theme.of(context).colorScheme.onSecondary),
+        onPressed: () => Navigator.of(context).pop(),
+        ),
+          title: Text("Cargar Imagen",
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onSecondary,
+          ),)),
         body: Container(
           padding: const EdgeInsets.all(16),
           child: BlocBuilder<UpLoadImageBloc, UpLoadImageState>(

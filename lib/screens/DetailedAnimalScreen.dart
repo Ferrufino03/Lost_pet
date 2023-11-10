@@ -24,7 +24,17 @@ class DetailedAnimalScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(animalType)),
+      appBar: AppBar( 
+        leading: IconButton(
+        icon: Icon(Icons.arrow_back, color:Theme.of(context).colorScheme.onSecondary),
+        onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: Text(animalType,
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.onSecondary
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -36,8 +46,8 @@ class DetailedAnimalScreen extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     'Tipo de animal: $animalType',
-                    style: const TextStyle(
-                        fontSize: 24, fontWeight: FontWeight.bold),
+                    style: const  TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.bold,),
                   ),
                   const SizedBox(height: 10),
                   Text(
@@ -71,9 +81,11 @@ class DetailedAnimalScreen extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () => _deleteAnimalByReferenceNumber(
                             context, numeroDeReferencia),
-                        child: const Text('Eliminar'),
+                        child:  Text('Eliminar'),
                         style: ElevatedButton.styleFrom(
                           primary: Colors.red,
+                          foregroundColor: Theme.of(context).colorScheme.onSecondary,
+                          
                         ),
                       ),
                       ElevatedButton(
@@ -82,12 +94,17 @@ class DetailedAnimalScreen extends StatelessWidget {
                         child: const Text('Encontrado'),
                         style: ElevatedButton.styleFrom(
                           primary: Colors.green,
+                          foregroundColor: Theme.of(context).colorScheme.onSecondary,
                         ),
                       ),
                       ElevatedButton(
                         onPressed: () =>
                             _contactOwner(context, numeroDeReferencia),
                         child: const Text('Contactar'),
+                        style: ElevatedButton.styleFrom(
+                          primary: Theme.of(context).colorScheme.secondary,
+                          foregroundColor: Theme.of(context).colorScheme.onSecondary,
+                        ),
                       ),
                     ],
                   ),
