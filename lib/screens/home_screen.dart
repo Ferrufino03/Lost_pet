@@ -5,6 +5,7 @@ import '../widgets/LostAnimalCard.dart';
 import '../blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'user_profile_screen.dart';
+import 'DeveloperInfoScreen.dart';
 
 void main() => runApp(MyApp());
 
@@ -33,54 +34,101 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   bool _isSearching = false;
   String _searchQuery = '';
+  String selectedCategory = '';
+
   TextEditingController _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     // Se mueven las opciones del widget aquí para que se reconstruyan con el estado actualizado
     final List<Widget> _widgetOptions = <Widget>[
-      LostAnimalsSection(searchQuery: _searchQuery, isSearching: _isSearching),
-      FoundAnimalsSection(), // Asumiendo que no necesita argumentos
+      LostAnimalsSection(
+          searchQuery: _searchQuery,
+          isSearching: _isSearching,
+          selectedCategory: selectedCategory),
+      FoundAnimalsSection(
+          selectedCategory:
+              selectedCategory), // Asumiendo que no necesita argumentos
     ];
 
     return Scaffold(
       appBar: AppBar(
-        title:  Text('Lost Pets',
+        title: Text(
+          'Lost Pets',
           style: TextStyle(
-          color: Theme.of(context).colorScheme.onSecondary,
+            color: Theme.of(context).colorScheme.onSecondary,
+          ),
         ),
-      ),
         actions: [
-    IconTheme(
-      data: IconThemeData(
-        color: Theme.of(context).colorScheme.onSecondary
-      ),
-      child: IconButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => UserProfileScreen()),
-          );
-        },
-        icon: const Icon(Icons.account_circle),
-      ),
-    ),
-    IconTheme(
-      data: IconThemeData(
-        color: Theme.of(context).colorScheme.onSecondary
-      ),
-      child: IconButton(
-        onPressed: () {
-          context.read<SignInBloc>().add(const SignOutRequired());
-        },
-        icon: const Icon(Icons.logout),
-      ),
-    ),
-  ],
+          IconTheme(
+            data:
+                IconThemeData(color: Theme.of(context).colorScheme.onSecondary),
+            child: IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => UserProfileScreen()),
+                );
+              },
+              icon: const Icon(Icons.account_circle),
+            ),
+          ),
+          IconTheme(
+            data:
+                IconThemeData(color: Theme.of(context).colorScheme.onSecondary),
+            child: IconButton(
+              onPressed: () {
+                context.read<SignInBloc>().add(const SignOutRequired());
+              },
+              icon: const Icon(Icons.logout),
+            ),
+          ),
+          IconButton(
+            icon: Icon(Icons
+                .info), // Icono para el botón "Acerca de los Desarrolladores"
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => DeveloperInfoScreen()),
+              );
+            },
+          ),
+          PopupMenuButton<String>(
+            onSelected: (value) {
+              setState(() {
+                selectedCategory = value;
+              });
+            },
+            itemBuilder: (BuildContext context) {
+              return <PopupMenuEntry<String>>[
+                PopupMenuItem<String>(
+                  value: 'Ver todos',
+                  child: Text('Ver todos'),
+                ),
+                PopupMenuItem<String>(
+                  value: 'Conejo',
+                  child: Text('Conejo'),
+                ),
+                PopupMenuItem<String>(
+                  value: 'Pato',
+                  child: Text('Pato'),
+                ),
+                PopupMenuItem<String>(
+                  value: 'Perro',
+                  child: Text('Perro'),
+                ),
+                PopupMenuItem<String>(
+                  value: 'Capibara',
+                  child: Text('Capibara'),
+                ),
+              ];
+            },
+          ),
+        ],
       ),
       body: Column(
-        children: <Widget>[ const
-          SizedBox(height: 20),
+        children: <Widget>[
+          const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
               Navigator.push(
@@ -89,7 +137,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     builder: (context) => AnimalRegistrationScreen()),
               );
             },
-            child:  Text('Registrar Animal Perdido',
+            child: Text(
+              'Registrar Animal Perdido',
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onSecondary,
               ),
@@ -148,27 +197,37 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class LostAnimalsSection extends StatelessWidget {
+  final String selectedCategory;
   final String searchQuery;
   final bool isSearching;
 
   const LostAnimalsSection({
     Key? key,
+    required this.selectedCategory,
     required this.searchQuery,
     required this.isSearching,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Stream<QuerySnapshot> stream = FirebaseFirestore.instance
-        .collection('animals')
-        .where('status', isEqualTo: 'Perdido')
-        .snapshots();
+    Stream<QuerySnapshot> stream;
 
     if (isSearching && searchQuery.isNotEmpty) {
       stream = FirebaseFirestore.instance
           .collection('animals')
           .where('status', isEqualTo: 'Perdido')
           .where('animaltype', isEqualTo: searchQuery)
+          .snapshots();
+    } else if (selectedCategory != 'Ver todos' && selectedCategory.isNotEmpty) {
+      stream = FirebaseFirestore.instance
+          .collection('animals')
+          .where('status', isEqualTo: 'Perdido')
+          .where('animaltype', isEqualTo: selectedCategory)
+          .snapshots();
+    } else {
+      stream = FirebaseFirestore.instance
+          .collection('animals')
+          .where('status', isEqualTo: 'Perdido')
           .snapshots();
     }
 
@@ -191,7 +250,7 @@ class LostAnimalsSection extends StatelessWidget {
 
         return ListView(
           children: <Widget>[
-             Padding(
+            Padding(
               padding: EdgeInsets.all(16.0),
               child: Text(
                 "Animales Perdidos",
@@ -199,7 +258,6 @@ class LostAnimalsSection extends StatelessWidget {
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).colorScheme.primary,
-                  
                 ),
               ),
             ),
@@ -212,18 +270,40 @@ class LostAnimalsSection extends StatelessWidget {
 }
 
 class FoundAnimalsSection extends StatelessWidget {
+  final String selectedCategory;
+
+  FoundAnimalsSection({required this.selectedCategory});
+
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance
+    Stream<QuerySnapshot> animalStream;
+
+    if (selectedCategory == 'Ver todos') {
+      animalStream = FirebaseFirestore.instance
           .collection('animals')
           .where('status', isEqualTo: 'Encontrado')
-          .snapshots(),
+          .snapshots();
+    } else if (selectedCategory.isNotEmpty) {
+      animalStream = FirebaseFirestore.instance
+          .collection('animals')
+          .where('status', isEqualTo: 'Encontrado')
+          .where('animaltype', isEqualTo: selectedCategory)
+          .snapshots();
+    } else {
+      animalStream = FirebaseFirestore.instance
+          .collection('animals')
+          .where('status', isEqualTo: 'Encontrado')
+          .snapshots();
+    }
+
+    return StreamBuilder<QuerySnapshot>(
+      stream: animalStream,
       builder: (context, snapshot) {
         if (!snapshot.hasData) return const CircularProgressIndicator();
 
-        var animalCards = snapshot.data!.docs.map((doc) {
-          return LostAnimalCard(
+        List<LostAnimalCard> animalCards = [];
+        snapshot.data!.docs.forEach((doc) {
+          animalCards.add(LostAnimalCard(
             imageUrl: doc['imageURL'],
             animalType: doc['animaltype'],
             additionalInfo: doc['informacion'],
@@ -231,8 +311,8 @@ class FoundAnimalsSection extends StatelessWidget {
             recompensa: doc['recompensa'],
             numeroDeReferencia: doc['numref'],
             statusa: doc['status'],
-          );
-        }).toList();
+          ));
+        });
 
         return ListView(
           children: <Widget>[
