@@ -33,7 +33,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         Map<String, dynamic> data =
             documentSnapshot.data() as Map<String, dynamic>;
         setState(() {
-          _nombreController.text = data['nombre'] ?? '';
+          _nombreController.text = data['name'] ?? '';
           _emailController.text = data['email'] ?? '';
           _direccionController.text = data['direccion'] ?? '';
           _telefonoController.text = data['telefono'] ?? '';

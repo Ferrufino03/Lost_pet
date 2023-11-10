@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomeScreen(),
+      home: const HomeScreen(),
       debugShowCheckedModeBanner: false, // Esto quita la etiqueta de debug
     );
   }
@@ -84,8 +84,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           IconButton(
-            icon: Icon(Icons
-                .info), // Icono para el botón "Acerca de los Desarrolladores"
+            icon: const Icon(
+              Icons.info,
+              color: Colors.white,
+            ), // Icono para el botón "Acerca de los Desarrolladores"
             onPressed: () {
               Navigator.push(
                 context,
@@ -94,6 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
           PopupMenuButton<String>(
+            color: Colors.white,
             onSelected: (value) {
               setState(() {
                 selectedCategory = value;
@@ -101,23 +104,23 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             itemBuilder: (BuildContext context) {
               return <PopupMenuEntry<String>>[
-                PopupMenuItem<String>(
+                const PopupMenuItem<String>(
                   value: 'Ver todos',
                   child: Text('Ver todos'),
                 ),
-                PopupMenuItem<String>(
+                const PopupMenuItem<String>(
                   value: 'Conejo',
                   child: Text('Conejo'),
                 ),
-                PopupMenuItem<String>(
+                const PopupMenuItem<String>(
                   value: 'Pato',
                   child: Text('Pato'),
                 ),
-                PopupMenuItem<String>(
+                const PopupMenuItem<String>(
                   value: 'Perro',
                   child: Text('Perro'),
                 ),
-                PopupMenuItem<String>(
+                const PopupMenuItem<String>(
                   value: 'Capibara',
                   child: Text('Capibara'),
                 ),
@@ -134,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => AnimalRegistrationScreen()),
+                    builder: (context) => const AnimalRegistrationScreen()),
               );
             },
             child: Text(
@@ -251,7 +254,7 @@ class LostAnimalsSection extends StatelessWidget {
         return ListView(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Text(
                 "Animales Perdidos",
                 style: TextStyle(
