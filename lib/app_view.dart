@@ -1,7 +1,6 @@
-import 'package:firebase_crud/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:firebase_crud/blocs/sign_in_bloc/sign_in_bloc.dart';
-import 'package:firebase_crud/screens/auth/welcome_screen.dart';
-//import 'package:firebase_crud/screens/home/home_screen.dart';
+import 'package:lost_pet/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:lost_pet/blocs/sign_in_bloc/sign_in_bloc.dart';
+import 'package:lost_pet/screens/auth/welcome_screen.dart';
 import './screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -9,6 +9,7 @@ class LostAnimalCard extends StatelessWidget {
   final String recompensa;
   final String numeroDeReferencia;
   final String statusa;
+  final String userId; // Asume que ahora tienes este campo disponible
 
   LostAnimalCard({
     required this.imageUrl,
@@ -18,6 +19,7 @@ class LostAnimalCard extends StatelessWidget {
     required this.recompensa,
     required this.numeroDeReferencia,
     required this.statusa,
+    required this.userId, // Incluye el userId como un parámetro requerido
   });
 
   @override
@@ -27,8 +29,6 @@ class LostAnimalCard extends StatelessWidget {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => DetailedAnimalScreen(
-              //documentId:
-                //  'tu_document_id', // Asegúrate de pasar el documentId correcto aquí
               imageUrl: imageUrl,
               animalType: animalType,
               additionalInfo: additionalInfo,
@@ -36,6 +36,7 @@ class LostAnimalCard extends StatelessWidget {
               recompensa: recompensa,
               numeroDeReferencia: numeroDeReferencia,
               statusa: statusa,
+              userId: userId, // Pasa el userId a DetailedAnimalScreen
             ),
           ),
         );

@@ -1,9 +1,9 @@
 import 'dart:ui';
 
-import 'package:firebase_crud/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:firebase_crud/blocs/sign_up_bloc/sign_up_bloc.dart';
-import 'package:firebase_crud/screens/auth/sign_in_screen.dart';
-import 'package:firebase_crud/screens/auth/sign_up_screen.dart';
+import 'package:lost_pet/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:lost_pet/blocs/sign_up_bloc/sign_up_bloc.dart';
+import 'package:lost_pet/screens/auth/sign_in_screen.dart';
+import 'package:lost_pet/screens/auth/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

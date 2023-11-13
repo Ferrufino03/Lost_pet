@@ -1,4 +1,4 @@
-import 'package:firebase_crud/screens/AnimalRegistration/ui/AnimalRegistrationScreen.dart';
+import 'package:lost_pet/screens/AnimalRegistration/ui/AnimalRegistrationScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../widgets/LostAnimalCard.dart';
@@ -46,9 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
           searchQuery: _searchQuery,
           isSearching: _isSearching,
           selectedCategory: selectedCategory),
-      FoundAnimalsSection(
-          selectedCategory:
-              selectedCategory), // Asumiendo que no necesita argumentos
+      FoundAnimalsSection(selectedCategory: selectedCategory),
     ];
 
     return Scaffold(
@@ -87,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: const Icon(
               Icons.info,
               color: Colors.white,
-            ), // Icono para el botón "Acerca de los Desarrolladores"
+            ),
             onPressed: () {
               Navigator.push(
                 context,
@@ -96,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
           PopupMenuButton<String>(
-            color: Colors.white,
+            icon: const Icon(Icons.more_vert, color: Colors.white),
             onSelected: (value) {
               setState(() {
                 selectedCategory = value;
@@ -237,7 +235,8 @@ class LostAnimalsSection extends StatelessWidget {
     return StreamBuilder<QuerySnapshot>(
       stream: stream,
       builder: (context, snapshot) {
-        if (!snapshot.hasData) return const CircularProgressIndicator();
+        if (!snapshot.hasData)
+          return Center(child: const CircularProgressIndicator());
 
         var animalCards = snapshot.data!.docs.map((doc) {
           return LostAnimalCard(
@@ -248,6 +247,7 @@ class LostAnimalsSection extends StatelessWidget {
             recompensa: doc['recompensa'],
             numeroDeReferencia: doc['numref'],
             statusa: doc['status'],
+            userId: doc['userId'], // Asegúrate de incluir el userId aquí
           );
         }).toList();
 
@@ -302,11 +302,11 @@ class FoundAnimalsSection extends StatelessWidget {
     return StreamBuilder<QuerySnapshot>(
       stream: animalStream,
       builder: (context, snapshot) {
-        if (!snapshot.hasData) return const CircularProgressIndicator();
+        if (!snapshot.hasData)
+          return const Center(child: CircularProgressIndicator());
 
-        List<LostAnimalCard> animalCards = [];
-        snapshot.data!.docs.forEach((doc) {
-          animalCards.add(LostAnimalCard(
+        List<LostAnimalCard> animalCards = snapshot.data!.docs.map((doc) {
+          return LostAnimalCard(
             imageUrl: doc['imageURL'],
             animalType: doc['animaltype'],
             additionalInfo: doc['informacion'],
@@ -314,8 +314,10 @@ class FoundAnimalsSection extends StatelessWidget {
             recompensa: doc['recompensa'],
             numeroDeReferencia: doc['numref'],
             statusa: doc['status'],
-          ));
-        });
+            userId:
+                doc['userId'], // Asegúrate de incluir el userId aquí también
+          );
+        }).toList();
 
         return ListView(
           children: <Widget>[

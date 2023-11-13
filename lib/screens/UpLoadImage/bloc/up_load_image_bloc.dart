@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:firebase_crud/screens/UpLoadImage/bloc/up_load_image_event.dart';
-import 'package:firebase_crud/screens/UpLoadImage/bloc/up_load_image_state.dart';
+import 'package:lost_pet/screens/UpLoadImage/bloc/up_load_image_event.dart';
+import 'package:lost_pet/screens/UpLoadImage/bloc/up_load_image_state.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
