@@ -23,6 +23,7 @@ class FoundAnimalsSection extends StatelessWidget {
             recompensa: doc['recompensa'],
             numeroDeReferencia: doc['numref'],
             statusa: doc['status'],
+            userId: doc['userId'], 
           ));
         });
 

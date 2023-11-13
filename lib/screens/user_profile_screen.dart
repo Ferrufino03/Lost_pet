@@ -131,7 +131,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         .collection('users')
                         .doc(user!.uid)
                         .update({
-                      'nombre': _nombreController.text,
+                      'name': _nombreController.text,
                       'email': _emailController.text,
                       'direccion': _direccionController.text,
                       'telefono': _telefonoController.text,

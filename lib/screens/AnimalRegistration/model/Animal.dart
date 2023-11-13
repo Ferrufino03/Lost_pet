@@ -6,14 +6,16 @@ class Animal {
   String recompensa;
   String numref;
   String status = "Perdido";
-  
+  String userId;
+
   Animal({
-    this.imageURL="",
-    this.animaltype="",
-    this.informacion="",
-    this.infoubicacion="",
-    this.recompensa="",
-    this.numref="",
+    this.imageURL = "",
+    this.animaltype = "",
+    this.informacion = "",
+    this.infoubicacion = "",
+    this.recompensa = "",
+    this.numref = "",
+    this.userId = "", 
   });
 
   Map<String, dynamic> get toMap {
@@ -24,7 +26,8 @@ class Animal {
       "infoubicacion": this.infoubicacion,
       "recompensa": this.recompensa,
       "numref": this.numref,
-      "status": "Perdido"
+      "status": "Perdido",
+      "userId": this.userId
     };
   }
 }

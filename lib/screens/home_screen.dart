@@ -17,8 +17,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomeScreen(),
-      debugShowCheckedModeBanner: false, // Esto quita la etiqueta de debug
+      home: const HomeScreen(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
           selectedCategory: selectedCategory),
       FoundAnimalsSection(
           selectedCategory:
-              selectedCategory), // Asumiendo que no necesita argumentos
+              selectedCategory),
     ];
 
     return Scaffold(
@@ -84,8 +84,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           IconButton(
-            icon: Icon(Icons
-                .info), // Icono para el botón "Acerca de los Desarrolladores"
+            icon: const Icon(
+              Icons.info, 
+              color: Colors.white,
+            ),
             onPressed: () {
               Navigator.push(
                 context,
@@ -94,6 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
           PopupMenuButton<String>(
+            icon: const Icon(Icons.more_vert, color: Colors.white),
             onSelected: (value) {
               setState(() {
                 selectedCategory = value;
@@ -101,23 +104,23 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             itemBuilder: (BuildContext context) {
               return <PopupMenuEntry<String>>[
-                PopupMenuItem<String>(
+                const PopupMenuItem<String>(
                   value: 'Ver todos',
                   child: Text('Ver todos'),
                 ),
-                PopupMenuItem<String>(
+                const PopupMenuItem<String>(
                   value: 'Conejo',
                   child: Text('Conejo'),
                 ),
-                PopupMenuItem<String>(
+                const PopupMenuItem<String>(
                   value: 'Pato',
                   child: Text('Pato'),
                 ),
-                PopupMenuItem<String>(
+                const PopupMenuItem<String>(
                   value: 'Perro',
                   child: Text('Perro'),
                 ),
-                PopupMenuItem<String>(
+                const PopupMenuItem<String>(
                   value: 'Capibara',
                   child: Text('Capibara'),
                 ),
@@ -134,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => AnimalRegistrationScreen()),
+                    builder: (context) => const AnimalRegistrationScreen()),
               );
             },
             child: Text(
@@ -245,13 +248,14 @@ class LostAnimalsSection extends StatelessWidget {
             recompensa: doc['recompensa'],
             numeroDeReferencia: doc['numref'],
             statusa: doc['status'],
+            userId: doc['userId'], // Asegúrate de incluir el userId aquí
           );
         }).toList();
 
         return ListView(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Text(
                 "Animales Perdidos",
                 style: TextStyle(
@@ -301,9 +305,8 @@ class FoundAnimalsSection extends StatelessWidget {
       builder: (context, snapshot) {
         if (!snapshot.hasData) return const CircularProgressIndicator();
 
-        List<LostAnimalCard> animalCards = [];
-        snapshot.data!.docs.forEach((doc) {
-          animalCards.add(LostAnimalCard(
+        List<LostAnimalCard> animalCards = snapshot.data!.docs.map((doc) {
+          return LostAnimalCard(
             imageUrl: doc['imageURL'],
             animalType: doc['animaltype'],
             additionalInfo: doc['informacion'],
@@ -311,8 +314,10 @@ class FoundAnimalsSection extends StatelessWidget {
             recompensa: doc['recompensa'],
             numeroDeReferencia: doc['numref'],
             statusa: doc['status'],
-          ));
-        });
+            userId:
+                doc['userId'], // Asegúrate de incluir el userId aquí también
+          );
+        }).toList();
 
         return ListView(
           children: <Widget>[
