@@ -1,4 +1,4 @@
-import 'package:firebase_crud/screens/auth/components/my_text_field.dart';
+import 'package:lost_pet/screens/auth/components/my_text_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

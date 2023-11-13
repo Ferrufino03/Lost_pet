@@ -1,5 +1,5 @@
-import 'package:firebase_crud/app_view.dart';
-import 'package:firebase_crud/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:lost_pet/app_view.dart';
+import 'package:lost_pet/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:user_repository/user_repository.dart';

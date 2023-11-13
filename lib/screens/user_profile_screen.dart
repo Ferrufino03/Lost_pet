@@ -9,20 +9,20 @@ class UserProfileScreen extends StatefulWidget {
   @override
   _UserProfileScreenState createState() => _UserProfileScreenState();
 }
-
+ 
 class _UserProfileScreenState extends State<UserProfileScreen> {
   TextEditingController _nombreController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _direccionController = TextEditingController();
   TextEditingController _telefonoController = TextEditingController();
   File? _image;
-
+ 
   @override
   void initState() {
     super.initState();
     // Obtener el usuario actualmente autenticado
     User? user = FirebaseAuth.instance.currentUser;
-
+ 
     // Obtener los datos del usuario desde Firestore
     FirebaseFirestore.instance
         .collection('users')
@@ -41,7 +41,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       }
     });
   }
-
+ 
   Future<void> _pickImage() async {
     final pickedFile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -51,17 +51,17 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       }
     });
   }
-
+ 
   Future<String> _uploadImage() async {
     if (_image == null) return '';
-
+ 
     Reference storageReference =
         FirebaseStorage.instance.ref().child('profile_images/${_image!.path}');
     UploadTask uploadTask = storageReference.putFile(_image!);
     await uploadTask.whenComplete(() => null);
     return await storageReference.getDownloadURL();
   }
-
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,24 +121,24 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 onPressed: () async {
                   // Obtener el ID del usuario actualmente autenticado
                   User? user = FirebaseAuth.instance.currentUser;
-
+ 
                   // Subir la imagen de perfil a Firebase Storage y obtener la URL
                   String imageUrl = await _uploadImage();
-
+ 
                   try {
                     // Actualizar los datos del usuario en Firestore incluyendo la URL de la imagen de perfil
                     await FirebaseFirestore.instance
                         .collection('users')
                         .doc(user!.uid)
                         .update({
-                      'nombre': _nombreController.text,
+                      'name': _nombreController.text,
                       'email': _emailController.text,
                       'direccion': _direccionController.text,
                       'telefono': _telefonoController.text,
                       'imagenPerfil':
                           imageUrl, // Campo para la URL de la imagen de perfil
                     });
-
+ 
                     // Mostrar un mensaje de éxito si la actualización fue exitosa
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(

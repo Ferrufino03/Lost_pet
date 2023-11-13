@@ -1,11 +1,11 @@
 import 'dart:io';
 
-import 'package:firebase_crud/screens/AnimalRegistration/bloc/animal_registration_bloc.dart';
-import 'package:firebase_crud/screens/AnimalRegistration/bloc/animal_registration_event.dart';
-import 'package:firebase_crud/screens/UpLoadImage/bloc/up_load_image_bloc.dart';
-import 'package:firebase_crud/screens/UpLoadImage/bloc/up_load_image_event.dart';
-import 'package:firebase_crud/screens/UpLoadImage/bloc/up_load_image_state.dart';
-import 'package:firebase_crud/services/load_resource.dart';
+import 'package:lost_pet/screens/AnimalRegistration/bloc/animal_registration_bloc.dart';
+import 'package:lost_pet/screens/AnimalRegistration/bloc/animal_registration_event.dart';
+import 'package:lost_pet/screens/UpLoadImage/bloc/up_load_image_bloc.dart';
+import 'package:lost_pet/screens/UpLoadImage/bloc/up_load_image_event.dart';
+import 'package:lost_pet/screens/UpLoadImage/bloc/up_load_image_state.dart';
+import 'package:lost_pet/services/load_resource.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';

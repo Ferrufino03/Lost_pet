@@ -1,8 +1,8 @@
-import 'package:firebase_crud/screens/AnimalRegistration/bloc/animal_registration_bloc.dart';
-import 'package:firebase_crud/screens/AnimalRegistration/bloc/animal_registration_event.dart';
-import 'package:firebase_crud/screens/AnimalRegistration/bloc/animal_registration_state.dart';
-import 'package:firebase_crud/screens/AnimalRegistration/model/Animal.dart';
-import 'package:firebase_crud/screens/UpLoadImage/ui/upload_image.dart';
+import 'package:lost_pet/screens/AnimalRegistration/bloc/animal_registration_bloc.dart';
+import 'package:lost_pet/screens/AnimalRegistration/bloc/animal_registration_event.dart';
+import 'package:lost_pet/screens/AnimalRegistration/bloc/animal_registration_state.dart';
+import 'package:lost_pet/screens/AnimalRegistration/model/Animal.dart';
+import 'package:lost_pet/screens/UpLoadImage/ui/upload_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -61,14 +61,15 @@ class _AnimalRegistrationScreenState extends State<AnimalRegistrationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-        icon: Icon(Icons.arrow_back, color:Theme.of(context).colorScheme.onSecondary),
-        onPressed: () => Navigator.of(context).pop(),
-        ),
-        title:  Text('Registrar Animal Perdido',
-        style:TextStyle(
-        color: Theme.of(context).colorScheme.onSecondary,
-      ))),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back,
+                color: Theme.of(context).colorScheme.onSecondary),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          title: Text('Registrar Animal Perdido',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSecondary,
+              ))),
       body: Container(
           padding: const EdgeInsets.all(16.0),
           child: BlocBuilder<AnimalRegistrationBloc, AnimalRegistrationState>(
@@ -186,7 +187,14 @@ class _AnimalRegistrationScreenState extends State<AnimalRegistrationScreen> {
   }
 
   Widget animalsType() {
-    List<String> tiposDeAnimales = ['Perro', 'Gato', 'Pato', 'Conejo', 'Canario'];
+    List<String> tiposDeAnimales = [
+      'Perro',
+      'Gato',
+      'Pato',
+      'Conejo',
+      'Canario',
+      'Otro'
+    ];
     Set<String> animals = {"Seleccione el tipo de animal", ...tiposDeAnimales};
     List<DropdownMenuItem<String>> items = animals.map((e) {
       return DropdownMenuItem<String>(
@@ -210,43 +218,18 @@ class _AnimalRegistrationScreenState extends State<AnimalRegistrationScreen> {
         });
       },
     );
-    Widget inputType = TextFormField(
-      decoration: _decor('Tipo de animal'),
-      controller: _animalType,
-      onChanged: (value) {
-        setState(() {
-          _handleInput(value, "_animalType");
-        });
-      },
-      keyboardType: TextInputType.text,
-    );
-    Widget wrapper = Row(
-      children: [
-        _animalType.text.isEmpty
-            ? Expanded(
-                child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(
-                          10), // Radio del borde del contenedor
-                      border: Border.all(
-                        color: Colors.black12, // Color del borde
-                        width: 1, // Ancho del borde
-                      ),
-                    ),
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.only(left: 5, right: 15),
-                    child: menu))
-            : const SizedBox(),
-        (_animalType.text.isEmpty && _option.isEmpty)
-            ? const SizedBox(
-                width: 30,
-                child: Text("o",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 20)))
-            : const SizedBox(),
-        _option.isEmpty ? Expanded(child: inputType) : const SizedBox()
-      ],
-    );
+    Widget wrapper = Container(
+        decoration: BoxDecoration(
+          borderRadius:
+              BorderRadius.circular(10), // Radio del borde del contenedor
+          border: Border.all(
+            color: Colors.black12, // Color del borde
+            width: 1, // Ancho del borde
+          ),
+        ),
+        alignment: Alignment.center,
+        padding: const EdgeInsets.only(left: 5, right: 15),
+        child: menu);
     return wrapper;
   }
 
@@ -268,13 +251,17 @@ class _AnimalRegistrationScreenState extends State<AnimalRegistrationScreen> {
 
   void _submitForm() async {
     final animal = BlocProvider.of<AnimalRegistrationBloc>(context).animal;
-    if (_formKey.currentState!.validate() && animal.animaltype.isNotEmpty && animal.imageURL.isNotEmpty) {
+    if (_formKey.currentState!.validate() &&
+        animal.animaltype.isNotEmpty &&
+        animal.imageURL.isNotEmpty) {
       //_formKey.currentState!.save();
       BlocProvider.of<AnimalRegistrationBloc>(context).add(SubmitEvent());
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(animal.animaltype.isEmpty?"Indique el tipo de animal":"Suba una imagen por favor."),
+          content: Text(animal.animaltype.isEmpty
+              ? "Indique el tipo de animal"
+              : "Suba una imagen por favor."),
         ),
       );
     }

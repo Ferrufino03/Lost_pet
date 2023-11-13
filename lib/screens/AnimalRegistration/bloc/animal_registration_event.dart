@@ -1,4 +1,4 @@
-import 'package:firebase_crud/screens/AnimalRegistration/model/Animal.dart';
+import 'package:lost_pet/screens/AnimalRegistration/model/Animal.dart';
 
 abstract class AnimalRegistrationEvent {}
 
